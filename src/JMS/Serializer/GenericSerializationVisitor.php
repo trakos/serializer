@@ -146,7 +146,11 @@ abstract class GenericSerializationVisitor extends AbstractVisitor
 
         if ($metadata->inline) {
             if (is_array($v)) {
-                $this->data = array_merge($this->data, $v);
+                if (null !== $metadata->type && count($metadata->type['params']) > 1) {
+                    $this->data += $v;
+                } else {
+                    $this->data = array_merge($this->data, $v);
+                }
             }
         } else {
             $this->data[$k] = $v;
